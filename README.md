@@ -6,6 +6,19 @@ Thin agent-facing adapters on top of `inactu-sdk`.
 
 This repository is intentionally not an agent framework.
 
+## Description
+
+`inactu-agent-kit` provides lightweight Rust adapters for verify/execute/receipt
+execution flows powered by `inactu-sdk`.
+
+## Tags
+
+- `inactu`
+- `agent`
+- `sdk`
+- `adapter`
+- `supply-chain`
+
 ## Scope
 
 In scope:
@@ -28,7 +41,7 @@ let adapter = InactuExecutionAdapter::default();
 let out = adapter.verify_execute_parse(AgentExecutionRequest {
     bundle: "./bundle".into(),
     keys: "./public-keys.json".into(),
-    keys_digest: None,
+    keys_digest: Some("sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef".into()),
     policy: "./policy.json".into(),
     input: "./input.json".into(),
     receipt: "./receipt.json".into(),

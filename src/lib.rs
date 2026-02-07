@@ -120,7 +120,10 @@ mod tests {
             .verify_execute_parse(AgentExecutionRequest {
                 bundle: PathBuf::from("./bundle"),
                 keys: PathBuf::from("./keys.json"),
-                keys_digest: None,
+                keys_digest: Some(
+                    "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                        .to_string(),
+                ),
                 policy: PathBuf::from("./policy.json"),
                 input: PathBuf::from("./input.json"),
                 receipt: receipt_path,
