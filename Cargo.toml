@@ -1,13 +1,17 @@
 [package]
-name = "inactu-agent-kit"
+name = "provenact-agent-kit"
 version = "0.1.0-alpha.1"
 edition = "2024"
 license = "Apache-2.0"
-description = "Thin agent-facing adapters for Inactu SDK execution flows"
-repository = "https://github.com/inactu/inactu-agent-kit"
+description = "Agent-facing Rust adapters for Provenact SDK verify/execute/receipt flows"
+repository = "https://github.com/provenact/provenact-agent-kit"
+readme = "README.md"
+keywords = ["provenact", "agent", "sdk", "adapter", "supply-chain"]
+categories = ["api-bindings", "development-tools"]
 
 [dependencies]
-inactu-sdk = { path = "../inactu-sdk" }
+provenact-sdk = { path = "../provenact-sdk" }
 
 [dev-dependencies]
+sha2 = "0.10"
 tempfile = "3"

@@ -2,16 +2,16 @@
 
 ## Boundary
 
-`inactu-agent-kit` adapts execution primitives from `inactu-sdk`.
+`provenact-agent-kit` adapts execution primitives from `provenact-sdk`.
 It does not decide what to do next.
 
 ## Design
 
-- `InactuExecutionAdapter` provides one call:
+- `ProvenactExecutionAdapter` provides one call:
   - verify bundle
   - execute verified bundle
   - parse receipt
-- The adapter delegates all trust-critical checks to `inactu-sdk`/`inactu-cli`.
+- The adapter delegates all trust-critical checks to `provenact-sdk`/`provenact-cli`.
 
 ## Explicit Non-Goals
 

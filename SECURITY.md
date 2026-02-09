@@ -2,9 +2,9 @@
 
 ## Boundary
 
-`inactu-agent-kit` is a thin adapter over `inactu-sdk`.
-Trust-critical verification and execution controls are delegated to `inactu-sdk`
-and `inactu-cli`.
+`provenact-agent-kit` is a thin adapter over `provenact-sdk`.
+Trust-critical verification and execution controls are delegated to `provenact-sdk`
+and `provenact-cli`.
 
 ## Non-goals
 

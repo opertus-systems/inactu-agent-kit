@@ -1,9 +1,9 @@
 use std::path::PathBuf;
 
-use inactu_agent_kit::{AgentExecutionRequest, InactuExecutionAdapter};
+use provenact_agent_kit::{AgentExecutionRequest, ProvenactExecutionAdapter};
 
-fn main() -> Result<(), inactu_sdk::SdkError> {
-    let adapter = InactuExecutionAdapter::default();
+fn main() -> Result<(), provenact_sdk::SdkError> {
+    let adapter = ProvenactExecutionAdapter::default();
 
     let out = adapter.verify_execute_parse(AgentExecutionRequest {
         bundle: PathBuf::from("./bundle"),

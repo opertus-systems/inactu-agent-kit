@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use inactu_sdk::{CliRunner, ExecuteRequest, InactuSdk, Receipt, SdkError, VerifyRequest};
+use provenact_sdk::{CliRunner, ExecuteRequest, ProvenactSdk, Receipt, SdkError, VerifyRequest};
 
 pub type Result<T> = std::result::Result<T, SdkError>;
 
@@ -25,25 +25,25 @@ pub struct AgentExecutionOutput {
 }
 
 #[derive(Debug, Clone)]
-pub struct InactuExecutionAdapter<R = CliRunner> {
-    sdk: InactuSdk<R>,
+pub struct ProvenactExecutionAdapter<R = CliRunner> {
+    sdk: ProvenactSdk<R>,
 }
 
-impl Default for InactuExecutionAdapter<CliRunner> {
+impl Default for ProvenactExecutionAdapter<CliRunner> {
     fn default() -> Self {
         Self {
-            sdk: InactuSdk::default(),
+            sdk: ProvenactSdk::default(),
         }
     }
 }
 
-impl<R> InactuExecutionAdapter<R>
+impl<R> ProvenactExecutionAdapter<R>
 where
-    R: inactu_sdk::CommandRunner,
+    R: provenact_sdk::CommandRunner,
 {
     pub fn with_runner(runner: R) -> Self {
         Self {
-            sdk: InactuSdk::with_runner(runner),
+            sdk: ProvenactSdk::with_runner(runner),
         }
     }
 
@@ -88,8 +88,8 @@ mod tests {
         calls: std::sync::Mutex<Vec<Vec<String>>>,
     }
 
-    impl inactu_sdk::CommandRunner for FakeRunner {
-        fn run<I, S>(&self, args: I) -> inactu_sdk::Result<String>
+    impl provenact_sdk::CommandRunner for FakeRunner {
+        fn run<I, S>(&self, args: I) -> provenact_sdk::Result<String>
         where
             I: IntoIterator<Item = S>,
             S: AsRef<OsStr>,
@@ -111,7 +111,7 @@ mod tests {
     #[test]
     fn adapter_executes_verify_then_run() {
         let runner = FakeRunner::default();
-        let adapter = InactuExecutionAdapter::with_runner(runner);
+        let adapter = ProvenactExecutionAdapter::with_runner(runner);
         let dir = tempfile::tempdir().expect("tmp");
         let receipt_path = dir.path().join("receipt.json");
         std::fs::write(&receipt_path, r#"{"schema_version":"1.0.0"}"#).expect("write");
@@ -120,7 +120,10 @@ mod tests {
             .verify_execute_parse(AgentExecutionRequest {
                 bundle: PathBuf::from("./bundle"),
                 keys: PathBuf::from("./keys.json"),
-                keys_digest: None,
+                keys_digest: Some(
+                    "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                        .to_string(),
+                ),
                 policy: PathBuf::from("./policy.json"),
                 input: PathBuf::from("./input.json"),
                 receipt: receipt_path,
