@@ -2,18 +2,18 @@
 
 [![Status](https://img.shields.io/badge/stability-0.x--alpha-orange)](./ARCHITECTURE.md)
 
-Thin agent-facing adapters on top of `inactu-sdk`.
+Thin agent-facing adapters on top of `provenact-sdk`.
 
 This repository is intentionally not an agent framework.
 
 ## Description
 
 `provenact-agent-kit` provides lightweight Rust adapters for verify/execute/receipt
-execution flows powered by `inactu-sdk`.
+execution flows powered by `provenact-sdk`.
 
 ## Tags
 
-- `inactu`
+- `provenact`
 - `agent`
 - `sdk`
 - `adapter`
@@ -22,7 +22,7 @@ execution flows powered by `inactu-sdk`.
 ## Scope
 
 In scope:
-- execution adapters over `inactu-sdk`
+- execution adapters over `provenact-sdk`
 - helper request/response types for verify + execute + receipt parse
 - integration points for external orchestrators
 
@@ -35,9 +35,9 @@ Out of scope:
 ## Example
 
 ```rust
-use inactu_agent_kit::{AgentExecutionRequest, InactuExecutionAdapter};
+use provenact_agent_kit::{AgentExecutionRequest, ProvenactExecutionAdapter};
 
-let adapter = InactuExecutionAdapter::default();
+let adapter = ProvenactExecutionAdapter::default();
 let out = adapter.verify_execute_parse(AgentExecutionRequest {
     bundle: "./bundle".into(),
     keys: "./public-keys.json".into(),
@@ -51,23 +51,23 @@ let out = adapter.verify_execute_parse(AgentExecutionRequest {
 })?;
 
 println!("{}", out.receipt.raw["artifact"]);
-# Ok::<(), inactu_sdk::SdkError>(())
+# Ok::<(), provenact_sdk::SdkError>(())
 ```
 
 ## CI
 
 - `.github/workflows/ci.yml` runs format, tests, and example checks.
 - `.github/workflows/conformance-smoke.yml` validates adapter behavior against a real
-  `inactu` substrate checkout and real bundles in `inactu-skills`.
+  `provenact` substrate checkout and real bundles in `provenact-skills`.
 
 ## Local Conformance Smoke
 
 ```bash
-INACTU_VECTOR_ROOT=../inactu \
-INACTU_SKILLS_ROOT=../inactu-skills \
-INACTU_CLI_BIN=../inactu/target/debug/inactu-cli \
+PROVENACT_VECTOR_ROOT=../provenact \
+PROVENACT_SKILLS_ROOT=../provenact-skills \
+PROVENACT_CLI_BIN=../provenact/target/debug/provenact-cli \
 cargo test --test conformance_smoke -- --nocapture
 ```
 
-If `INACTU_CLI_BIN` is not set, the test attempts to build `inactu-cli` from
-`INACTU_VECTOR_ROOT` (or from sibling `../inactu`).
+If `PROVENACT_CLI_BIN` is not set, the test attempts to build `provenact-cli` from
+`PROVENACT_VECTOR_ROOT` (or from sibling `../provenact`).

@@ -3,12 +3,12 @@ name: Conformance Smoke
 on:
   workflow_dispatch:
     inputs:
-      inactu_repo:
-        description: "Optional owner/repo for substrate checkout (defaults to <this-owner>/inactu)"
+      provenact_repo:
+        description: "Optional owner/repo for substrate checkout (defaults to <this-owner>/provenact)"
         required: false
         type: string
-      inactu_skills_repo:
-        description: "Optional owner/repo for skills checkout (defaults to <this-owner>/inactu-skills)"
+      provenact_skills_repo:
+        description: "Optional owner/repo for skills checkout (defaults to <this-owner>/provenact-skills)"
         required: false
         type: string
 
@@ -19,33 +19,33 @@ jobs:
       - name: Checkout Agent Kit
         uses: actions/checkout@v4
 
-      - name: Resolve inactu repositories
+      - name: Resolve provenact repositories
         id: repos
         shell: bash
         run: |
-          if [ -n "${{ inputs.inactu_repo }}" ]; then
-            echo "inactu_repo=${{ inputs.inactu_repo }}" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ inputs.provenact_repo }}" ]; then
+            echo "provenact_repo=${{ inputs.provenact_repo }}" >> "$GITHUB_OUTPUT"
           else
-            echo "inactu_repo=${{ github.repository_owner }}/inactu" >> "$GITHUB_OUTPUT"
+            echo "provenact_repo=${{ github.repository_owner }}/provenact" >> "$GITHUB_OUTPUT"
           fi
 
-          if [ -n "${{ inputs.inactu_skills_repo }}" ]; then
-            echo "inactu_skills_repo=${{ inputs.inactu_skills_repo }}" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ inputs.provenact_skills_repo }}" ]; then
+            echo "provenact_skills_repo=${{ inputs.provenact_skills_repo }}" >> "$GITHUB_OUTPUT"
           else
-            echo "inactu_skills_repo=${{ github.repository_owner }}/inactu-skills" >> "$GITHUB_OUTPUT"
+            echo "provenact_skills_repo=${{ github.repository_owner }}/provenact-skills" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Checkout Inactu substrate
+      - name: Checkout Provenact substrate
         uses: actions/checkout@v4
         with:
-          repository: ${{ steps.repos.outputs.inactu_repo }}
-          path: inactu
+          repository: ${{ steps.repos.outputs.provenact_repo }}
+          path: provenact
 
-      - name: Checkout Inactu skills
+      - name: Checkout Provenact skills
         uses: actions/checkout@v4
         with:
-          repository: ${{ steps.repos.outputs.inactu_skills_repo }}
-          path: inactu-skills
+          repository: ${{ steps.repos.outputs.provenact_skills_repo }}
+          path: provenact-skills
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -53,13 +53,13 @@ jobs:
       - name: Rust cache
         uses: Swatinem/rust-cache@v2
 
-      - name: Build inactu-cli
-        working-directory: inactu
-        run: cargo build -p inactu-cli
+      - name: Build provenact-cli
+        working-directory: provenact
+        run: cargo build -p provenact-cli
 
       - name: Run Agent Kit smoke test against substrate + skills
         env:
-          INACTU_VECTOR_ROOT: ${{ github.workspace }}/inactu
-          INACTU_SKILLS_ROOT: ${{ github.workspace }}/inactu-skills
-          INACTU_CLI_BIN: ${{ github.workspace }}/inactu/target/debug/inactu-cli
+          PROVENACT_VECTOR_ROOT: ${{ github.workspace }}/provenact
+          PROVENACT_SKILLS_ROOT: ${{ github.workspace }}/provenact-skills
+          PROVENACT_CLI_BIN: ${{ github.workspace }}/provenact/target/debug/provenact-cli
         run: cargo test --test conformance_smoke -- --nocapture

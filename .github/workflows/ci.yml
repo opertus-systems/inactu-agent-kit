@@ -16,8 +16,8 @@ jobs:
           repository: opertus-systems/provenact-sdk
           path: provenact-sdk
 
-      - name: Link inactu-sdk sibling path
-        run: ln -s "$GITHUB_WORKSPACE/provenact-sdk" "$GITHUB_WORKSPACE/../inactu-sdk"
+      - name: Link provenact-sdk sibling path
+        run: ln -s "$GITHUB_WORKSPACE/provenact-sdk" "$GITHUB_WORKSPACE/../provenact-sdk"
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
