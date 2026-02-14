@@ -180,4 +180,32 @@ mod tests {
 
         assert!(matches!(err, SdkError::InvalidRequest(_)));
     }
+
+    #[test]
+    fn adapter_rejects_invalid_keys_digest_format() {
+        let runner = FakeRunner::default();
+        let adapter = ProvenactExecutionAdapter::with_runner(runner);
+        let dir = tempfile::tempdir().expect("tmp");
+        let receipt_path = dir.path().join("receipt.json");
+        std::fs::write(&receipt_path, r#"{"schema_version":"1.0.0"}"#).expect("write");
+
+        let err = adapter
+            .verify_execute_parse(AgentExecutionRequest {
+                bundle: PathBuf::from("./bundle"),
+                keys: PathBuf::from("./keys.json"),
+                keys_digest: Some("sha256:invalid".to_string()),
+                policy: PathBuf::from("./policy.json"),
+                input: PathBuf::from("./input.json"),
+                receipt: receipt_path,
+                require_cosign: false,
+                oci_ref: None,
+                cosign_key: None,
+                cosign_cert_identity: None,
+                cosign_cert_oidc_issuer: None,
+                allow_experimental: false,
+            })
+            .expect_err("adapter should reject invalid digest format");
+
+        assert!(matches!(err, SdkError::InvalidRequest(_)));
+    }
 }

@@ -57,6 +57,9 @@ println!("{}", out.receipt.raw["artifact"]);
 # Ok::<(), provenact_sdk::SdkError>(())
 ```
 
+`keys_digest` must use `sha256:<64 lowercase hex>` and receipt parsing applies the
+same 1 MiB regular-file limit enforced by `provenact-sdk`.
+
 ## CI
 
 - `.github/workflows/ci.yml` runs format, tests, and example checks.
