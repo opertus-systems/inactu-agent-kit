@@ -41,7 +41,7 @@ let adapter = ProvenactExecutionAdapter::default();
 let out = adapter.verify_execute_parse(AgentExecutionRequest {
     bundle: "./bundle".into(),
     keys: "./public-keys.json".into(),
-    keys_digest: Some("sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef".into()),
+    keys_digest: "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef".into(),
     policy: "./policy.json".into(),
     input: "./input.json".into(),
     receipt: "./receipt.json".into(),
@@ -57,8 +57,8 @@ println!("{}", out.receipt.raw["artifact"]);
 # Ok::<(), provenact_sdk::SdkError>(())
 ```
 
-`keys_digest` must use `sha256:<64 lowercase hex>` and receipt parsing applies the
-same 1 MiB regular-file limit enforced by `provenact-sdk`.
+`keys_digest` is required and must use `sha256:<64 lowercase hex>`. Receipt
+parsing applies the same 1 MiB regular-file limit enforced by `provenact-sdk`.
 
 ## CI
 
