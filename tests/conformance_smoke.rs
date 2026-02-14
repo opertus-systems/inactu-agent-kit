@@ -48,7 +48,7 @@ fn verify_run_parse_against_skills_repo_smoke() {
         .verify_execute_parse(AgentExecutionRequest {
             bundle,
             keys,
-            keys_digest: Some(keys_digest),
+            keys_digest,
             policy,
             input,
             receipt: receipt.clone(),

@@ -8,7 +8,7 @@ fn main() -> Result<(), provenact_sdk::SdkError> {
     let out = adapter.verify_execute_parse(AgentExecutionRequest {
         bundle: PathBuf::from("./bundle"),
         keys: PathBuf::from("./public-keys.json"),
-        keys_digest: Some("sha256:<public-keys-json-digest>".into()),
+        keys_digest: "sha256:<public-keys-json-digest>".into(),
         policy: PathBuf::from("./policy.json"),
         input: PathBuf::from("./input.json"),
         receipt: PathBuf::from("./receipt.json"),
